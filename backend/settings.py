@@ -27,8 +27,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['blogbackend01.herokuapp.com',
-                 '127.0.0.1', '*.netlify.app', 'localhost:3000/']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -45,6 +44,8 @@ INSTALLED_APPS = [
 
     # third party
     'rest_framework',
+    # Deploy staff ( # Cross header middleware)
+    'corsheaders',
     # 'Pillow',
     'drf_yasg',
 ]
@@ -57,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Cross header middleware
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -136,3 +139,12 @@ MEDIA_URL = '/media/'
 
 # Deploy section
 django_heroku.settings(locals())
+
+# Cross header issue
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://localhost:3080",
+    'blogbackend01.herokuapp.com',
+    '127.0.0.1',
+    '*.netlify.app',
+]
