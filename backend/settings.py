@@ -27,7 +27,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['blogbackend01.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['blogbackend01.herokuapp.com',
+                 '127.0.0.1', '*.netlify.app', 'localhost:3000/']
 
 
 # Application definition
