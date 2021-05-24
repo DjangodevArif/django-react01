@@ -143,7 +143,7 @@ django_heroku.settings(locals())
 # Cross header issue
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
-    "http://localhost:3080",
+    "http://localhost:3000",
     'blogbackend01.herokuapp.com',
     '127.0.0.1',
     '*.netlify.app',
