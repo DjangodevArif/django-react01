@@ -18,7 +18,7 @@ db.sqlite3-journal
 media/
 
 # Requirements
-requirements.txt
+# requirements.txt
 
 # Environments
 .env
