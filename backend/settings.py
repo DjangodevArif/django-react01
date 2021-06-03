@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from decouple import config
 import django_heroku
 import os
 from pathlib import Path
@@ -22,10 +23,10 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -142,9 +143,9 @@ django_heroku.settings(locals())
 
 # Cross header issue
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
+    "http://localhost:8000",
     "http://localhost:3000",
-    'blogbackend01.herokuapp.com',
-    '127.0.0.1',
-    '*.netlify.app',
+    'https://blogbackend01.herokuapp.com',
+    'https://127.0.0.1:8000',
+    # '*.netlify.app',
 ]
