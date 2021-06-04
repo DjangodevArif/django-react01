@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions
+from django.http import HttpRequest, request
 
 from .models import *
 from .serializers import *
@@ -7,9 +8,10 @@ from .serializers import *
 
 
 class PostList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by('-post_date')
     serializer_class = PostSerializer
     permission_classes = [permissions.AllowAny]
+    # ordering = ['post_like']
 
     def perform_create(self, serializer):
         serializer.save(post_author=self.request.user)
@@ -29,3 +31,9 @@ class CommentList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(comment_author=self.request.user,
                         post_id=Post.objects.get(id=self.kwargs.get('pk')))
+
+
+class CategoryList(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializers
+
