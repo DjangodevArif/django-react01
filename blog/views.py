@@ -7,7 +7,7 @@ from .serializers import *
 
 
 class PostList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by('-post_date')
     serializer_class = PostSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -29,3 +29,8 @@ class CommentList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(comment_author=self.request.user,
                         post_id=Post.objects.get(id=self.kwargs.get('pk')))
+
+
+class CategoryList(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializers

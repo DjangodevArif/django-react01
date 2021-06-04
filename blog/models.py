@@ -4,6 +4,14 @@ from django.db import models
 # Create your models here.
 
 
+class Category(models.Model):
+
+    title = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return self.title
+
+
 def post_img_path(instance, filename):
     return 'post_pics/{0}/{1}'.format(instance.post_title, filename)
 
@@ -17,6 +25,8 @@ class Post(models.Model):
     post_detail = models.TextField(max_length=1000)
     post_date = models.DateTimeField(auto_now_add=True)
     post_like = models.ManyToManyField(User, related_name='+', blank=True)
+    post_category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f'{self.post_title } and id: { self.id }'
