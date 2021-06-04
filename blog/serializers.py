@@ -14,7 +14,7 @@ class PostSerializer(serializers.ModelSerializer):
     post_date = serializers.SerializerMethodField()
     post_comment = serializers.SerializerMethodField()
     post_category = serializers.ChoiceField(
-        choices=Category.objects.values_list('title', flat=True))
+        choices=Category.objects.values_list('title', 'pk'))
 
     class Meta:
         model = Post
@@ -68,7 +68,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
         view_name='comment', lookup_field='pk',
     )
     post_category = serializers.ChoiceField(
-        choices=Category.objects.values_list('title', flat=True))
+        choices=Category.objects.values_list('title', 'pk'))
 
     class Meta:
         model = Post
