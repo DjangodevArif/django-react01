@@ -111,7 +111,6 @@ class CategorySerializers(serializers.ModelSerializer):
 
     def get_post(self, obj):
         data = obj.post_set.all().order_by('-post_date')
-        print('self', self.context['request'])
         return PostSerializer(data, many=True, context={'request': self.context['request']}).data
 
 
