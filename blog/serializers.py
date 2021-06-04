@@ -68,7 +68,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
         view_name='comment', lookup_field='pk',
     )
     post_category = serializers.ChoiceField(
-        choices=Category.objects.values_list('title', 'pk'), allow_blank=True)
+        choices=Category.objects.values_list('title', flat=True), allow_blank=True)
 
     class Meta:
         model = Post
