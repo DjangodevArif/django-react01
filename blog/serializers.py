@@ -13,8 +13,8 @@ class PostSerializer(serializers.ModelSerializer):
     post_like = serializers.SerializerMethodField()
     post_date = serializers.SerializerMethodField()
     post_comment = serializers.SerializerMethodField()
-    post_category = serializers.ChoiceField(
-        choices=Category.objects.values_list('title', 'pk'), allow_blank=True, allow_null=True)
+    # post_category = serializers.ChoiceField(
+    #     choices=Category.objects.values_list('title', 'pk'), allow_blank=True, allow_null=True)
 
     class Meta:
         model = Post
@@ -67,8 +67,8 @@ class PostDetailSerializer(serializers.ModelSerializer):
     comment_url = serializers.HyperlinkedIdentityField(
         view_name='comment', lookup_field='pk',
     )
-    post_category = serializers.ChoiceField(
-        choices=Category.objects.values_list('title', flat=True), allow_blank=True, allow_null=True)
+    # post_category = serializers.ChoiceField(
+    #     choices=Category.objects.values_list('title', flat=True), allow_blank=True, allow_null=True)
 
     class Meta:
         model = Post
