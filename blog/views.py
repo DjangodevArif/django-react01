@@ -14,7 +14,6 @@ from .serializers import *
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all().order_by('-post_date')
     serializer_class = PostSerializer
-    permission_classes = [permissions.AllowAny]
 
     def perform_create(self, serializer):
         serializer.save(post_author=self.request.user)
@@ -23,13 +22,11 @@ class PostList(generics.ListCreateAPIView):
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostDetailSerializer
-    permission_classes = [permissions.AllowAny]
 
 
 class CommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializers
-    permission_classes = [permissions.AllowAny]
 
     def perform_create(self, serializer):
         serializer.save(comment_author=self.request.user,
