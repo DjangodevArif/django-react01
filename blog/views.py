@@ -1,9 +1,8 @@
-from django.db.models.aggregates import Max
-from django.http import response
 from django.db.models import Count
+from django.db.models.aggregates import Max
 from rest_framework import generics, permissions, status
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
@@ -58,10 +57,9 @@ class CategoryView(APIView):
 
     def get(self, request, *args, **kwargs):
         kwarg = kwargs.get('title')
-        category = generics.get_object_or_404(Category, title__icontains=kwarg)
-        print('category', category)
+        category = Category.objects.filter(title__icontains=kwarg)
         serialize = CategorySerializers(
-            category, context={'request': request})
+            category, many=True, context={'request': request})
         return Response(data=serialize.data, status=status.HTTP_200_OK)
 
 
