@@ -3,6 +3,7 @@ from django.db.models.aggregates import Max
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenVerifyView
 
 from .models import *
 from .serializers import *
@@ -15,7 +16,9 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
 
     def perform_create(self, serializer):
-        serializer.save(post_author=self.request.user)
+        category = Category.objects.get(
+            title=self.request.data['post_category'])
+        serializer.save(post_author=self.request.user, post_category=category)
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
