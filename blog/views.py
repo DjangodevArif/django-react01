@@ -1,9 +1,9 @@
+from django.apps import apps
 from django.db.models import Count
 from django.db.models.aggregates import Max
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenVerifyView
 
 from .models import *
 from .serializers import *
@@ -26,16 +26,40 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostDetailSerializer
 
 
-class CommentList(generics.ListCreateAPIView):
-    queryset = Comment.objects.all()
+class CommentList(generics.CreateAPIView):
+    queryset = Comment.objects.all().order_by('-comment_date')
     serializer_class = CommentSerializers
 
     def perform_create(self, serializer):
         serializer.save(comment_author=self.request.user,
-                        post_id=Post.objects.get(id=self.kwargs.get('pk')))
+                        post_id=Post.objects.get(id=self.request.data.get('post_id')))
 
 
-class CategoryList(generics.ListAPIView):
+class SubCommentList(generics.CreateAPIView):
+    queryset = SubComment.objects.all().order_by('-comment_date')
+    serializer_class = SubCommentSerializers
+
+    def perform_create(self, serializer):
+        serializer.save(comment_author=self.request.user,
+                        main_comment=Comment.objects.get(id=self.request.data.get('main_comment')))
+
+
+class CommSubView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CommentSerializers
+
+    def get_queryset(self):
+        model = apps.get_model('blog', self.kwargs['model'])
+        data = model.objects.filter(id=self.kwargs['pk'])
+        return data
+
+    def get_serializer_class(self):
+        model = apps.get_model('blog', self.kwargs['model'])
+        if model == Comment:
+            return CommentSerializers
+        return SubCommentSerializers
+
+
+class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializers
 
@@ -61,6 +85,23 @@ class CategoryView(APIView):
         serialize = CategorySerializers(
             category, many=True, context={'request': request})
         return Response(data=serialize.data, status=status.HTTP_200_OK)
+
+
+class UserCreateView(generics.ListCreateAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class LikeView(generics.GenericAPIView):
+
+    def post(self, request, *args, **kwargs):
+        post = Post.objects.get(id=request.data['post_id'])
+        if request.user in post.post_like.all():
+            post.post_like.remove(request.user)
+        else:
+            post.post_like.add(request.user)
+        return Response(status=status.HTTP_200_OK)
 
 
 '''    
