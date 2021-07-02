@@ -13,19 +13,22 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='post',
-            name='post_img',
-            field=models.URLField(max_length=500, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='post',
+        #     name='post_img',
+        #     field=models.URLField(max_length=500, null=True),
+        # ),
         migrations.CreateModel(
             name='SubComment',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('comment_detail', models.TextField(max_length=150)),
                 ('comment_date', models.DateField(auto_now_add=True)),
-                ('comment_author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('main_comment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blog.comment')),
+                ('comment_author', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('main_comment', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='blog.comment')),
             ],
         ),
     ]
