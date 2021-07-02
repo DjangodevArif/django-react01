@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # migrations.AddField(
-        #     model_name='post',
-        #     name='post_img',
-        #     field=models.URLField(max_length=500, null=True),
-        # ),
+        migrations.AddField(
+            model_name='post',
+            name='post_img',
+            field=models.URLField(max_length=500, null=True),
+        ),
         migrations.CreateModel(
             name='SubComment',
             fields=[
