@@ -15,8 +15,8 @@ class PostSerializer(serializers.ModelSerializer):
     post_like = serializers.SerializerMethodField()
     post_date = serializers.SerializerMethodField()
     post_comment = serializers.SerializerMethodField()
-    post_category = serializers.ChoiceField(
-        choices=Category.objects.values_list('title', 'pk'), allow_blank=True, allow_null=True)
+    # post_category = serializers.ChoiceField(
+    #     choices=Category.objects.values_list('title', 'pk'), allow_blank=True, allow_null=True)
 
     class Meta:
         model = Post
@@ -66,8 +66,8 @@ class PostDetailSerializer(serializers.ModelSerializer):
     post_author = serializers.SerializerMethodField()
     post_like = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
-    post_category = serializers.ChoiceField(
-        choices=Category.objects.values_list('title', 'pk'), allow_blank=True)
+    # post_category = serializers.ChoiceField(
+    #     choices=Category.objects.values_list('title', 'pk'), allow_blank=True)
 
     class Meta:
         model = Post
