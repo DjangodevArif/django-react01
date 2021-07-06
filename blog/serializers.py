@@ -80,7 +80,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
             'comments',
         )
         read_only_fields = [
-            'post_img', 'post_date',
+            'post_date',
         ]
         extra_kwargs = {
             'post_date': {'format': '%a %d. %B %Y %I %S %p'},
