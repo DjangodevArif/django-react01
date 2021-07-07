@@ -62,14 +62,15 @@ class PostSerializer(serializers.ModelSerializer):
 
 class PostDetailSerializer(serializers.ModelSerializer):
 
+    # post_like = serializers.SerializerMethodField()
     post_author = serializers.SerializerMethodField()
-    post_like = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
     post_category = serializers.StringRelatedField()
 
     class Meta:
         model = Post
         fields = (
+            'id',
             'post_author',
             'post_img',
             'post_title',
@@ -89,9 +90,9 @@ class PostDetailSerializer(serializers.ModelSerializer):
     def get_post_author(self, obj):
         return obj.post_author.username
 
-    def get_post_like(self, obj):
-        liker = obj.post_like.all().count()
-        return liker
+    # def get_post_like(self, obj):
+    #     liker = obj.post_like.all().count()
+    #     return liker
 
     def get_comments(self, obj):
         rel_comment = obj.comment_set.all()
