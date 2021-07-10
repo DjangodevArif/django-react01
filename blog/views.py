@@ -4,6 +4,7 @@ from django.db.models.aggregates import Max
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import *
 from .serializers import *
@@ -102,6 +103,10 @@ class LikeView(generics.GenericAPIView):
         else:
             post.post_like.add(request.user)
         return Response(status=status.HTTP_200_OK)
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 '''    

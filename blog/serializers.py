@@ -2,6 +2,7 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from blog.models import *
 
@@ -63,6 +64,7 @@ class PostSerializer(serializers.ModelSerializer):
 class PostDetailSerializer(serializers.ModelSerializer):
 
     # post_like = serializers.SerializerMethodField()
+    post_like = serializers.StringRelatedField(many=True)
     post_author = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
     post_category = serializers.StringRelatedField()
@@ -178,3 +180,16 @@ class UserSerializer(serializers.ModelSerializer):
             password=attrs, password_validators=validator)
         attrs = make_password(attrs)
         return attrs
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    def validate(self, attrs):
+
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+        data['user'] = UserSerializer(self.user).data
+
+        return data
